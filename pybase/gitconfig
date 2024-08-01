@@ -1,0 +1,38 @@
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+[user]
+	name = fayevnx
+	email = aquiverse@protonmail.com
+[credential]
+	helper = store --file=/run/.git/.git-credentials
+[alias]
+  aa = add -A
+  b = branch -v
+  bd = branch -d
+  bD = branch -D
+  br = branch
+  cd = clone --depth 1
+  ci = commit
+  cim = commit -m
+  cima = commit -am
+  clr = rm -r --cached
+  co = checkout
+  cp = cherry-pick -x
+  d = diff -w
+  dc = diff --cached
+  nb = checkout -b
+  lg = log --graph --date=relative --pretty=tformat:'%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%an %ad)%Creset' -20
+  oups = commit --amend --no-edit
+  r = remote -v
+  rh = reset --hard
+  st = status -sb
+  t = tag -l
+  unstage = reset HEAD
+  uncommit = reset --soft HEAD^
+[url "https://e.coding.net/"]
+	insteadOf = e.coding.net:
+	insteadOf = git@e.coding.net:
+	insteadOf = http://e.coding.net/
