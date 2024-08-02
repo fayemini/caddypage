@@ -1,0 +1,70 @@
+http://0.0.0.0:8000, http://localhost:8000 {
+  log {
+    format append {
+			site_root {http.vars.root}
+    }
+  }
+
+	# root * /var/www/html
+	# root * ../../site/pages/start
+	# root * ./site/pages/start
+
+	# Match requests to the "/about" path
+	handle_path /about {
+		# Serve a specific file or directory
+		# respond /srv/about.html
+		header Content-Type text/html
+		respond <<HTML
+        <html>
+                <head><title>About</title></head>
+                <body>New Caddy</body>
+        </html>
+        HTML 200
+	}
+
+	# Match requests to the "/blog/*" paths
+  @page_path path_regexp page \/github\/([^/]+)\/([^/]+).*
+	handle @page_path {
+    handle_path /* {
+      # Serve content from a specific directory
+      root /site/pages/github-{re.page.1}-{re.page.2}/* ./site/pages/github-{re.page.1}-{re.page.2}
+      # root * ./site/pages/start
+      file_server
+    }
+		
+    # header Content-Type text/html
+		# respond <<HTML
+    #     <html>
+    #             <head><title>github-{re.page.1}-{re.page.2}</title></head>
+    #             <body>New Caddy {http.vars.root}</body>
+    #     </html>
+    #     HTML 200
+	}
+
+	handle_path /site02* {
+		# Serve content from a specific directory
+		root * ./srv/site02
+		file_server
+	}
+
+	# Match requests to the "/api/*" paths
+	handle_path /api/* {
+		# Forward requests to a backend server
+		reverse_proxy http://backend-server:8080
+	}
+
+  handle_errors {
+    # rewrite * ./site/pages/start/{err.status_code}.html
+    rewrite * /{err.status_code}.html
+    file_server
+  }
+
+  root * ./site/pages/start
+  
+	# Default catch-all rule
+	handle_path /* {
+		# Serve the root index file
+		try_files {path} /index.html
+		file_server
+	}
+}

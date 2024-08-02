@@ -1,0 +1,122 @@
+
+
+
+https://solana.com/developers/guides/getstarted/setup-local-development#3-install-solana-cli
+sh -c "$(curl -sSfL https://release.solana.com/stable/install)"
+
+sudo apt-get install -y \
+    build-essential \
+    pkg-config \
+    libudev-dev llvm libclang-dev \
+    protobuf-compiler libssl-dev
+
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+
+source ~/.zshrc
+
+. "$HOME/.cargo/env"
+
+sh -c "$(curl -sSfL https://release.anza.xyz/stable/install)" # Solana CLI
+
+solana --version
+
+Install Anchor for Solana #
+Anchor is a framework for the Solana runtime providing several convenient developer tools for writing onchain programs
+
+install and manage anchor versions, we will use avm, the anchor version manager
+
+cargo install --git https://github.com/coral-xyz/anchor avm --locked --force
+
+Install Anchor using avm 
+
+avm install latest
+avm use latest
+
+anchor --version
+
+localhost blockchain cluster
+
+solana-test-validator
+
+Configure your Solana CLI to use your localhost validator
+
+solana config set --url localhost
+
+show local configuration 
+
+solana config get
+
+Create a file system wallet
+create a simple file system wallet to use during local development
+
+solana-keygen new
+
+指定保存位置
+
+solana-keygen new --outfile /path
+
+tell the Solana CLI to use this wallet to deploy and take ownership of your on-chain program
+
+solana config set -k ~/.config/solana/id.json
+
+Airdrop SOL tokens to your wallet
+
+solana airdrop 2
+
+check your current wallet's SOL balance
+
+solana balance
+
+https://solana.com/developers/guides/getstarted/full-stack-solana-development
+
+check all command
+
+solana --version; node -v; yarn --version; anchor --version
+
+solana --version; node -v; pnpm --version; anchor --version
+
+a Solana browser wallet extension to interact with the web-app you build
+
+like Phantom, Solflare, and Backpack
+
+
+Write and deploy a Solana program
+
+solana config set --url localhost
+cd ~
+solana-test-validator
+solana airdrop 100
+solana balance
+
+Set up an Anchor project
+
+anchor init counter
+cd counter
+
+program code will live in programs/counter/src
+
+test this program using tests in tests/counter.ts
+by Mocha/Chai
+
+write program in Rust
+build program to check for errors (or use rust-analyzer to get real-time errors)
+write Mocha/Chai tests to make sure it does what you expect
+test program
+repeat until you're ready to deploy
+
+build the program
+
+anchor build
+
+
+
+
+https://solana.com/developers/guides/getstarted/local-rust-hello-world
+https://solana.com/docs/programs/overview
+
+
+qwertyui
+
+ssh -L 59000:localhost:5901 -C -N -l fayemini super-rotary-phone-xqjg6xjg7p6hppvv-6001.app.github.dev
+
+
